@@ -2,7 +2,7 @@ import io
 import os
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.applications.efficientnet import preprocess_input
+#from tensorflow.keras.applications.efficientnet import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from flask import Flask, request, jsonify
 from PIL import Image
@@ -52,4 +52,4 @@ if __name__ == '__main__':
     # Cloud Run expects the container to listen on port 8080
     port = int(os.environ.get('PORT', 8080))
 
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=port)
