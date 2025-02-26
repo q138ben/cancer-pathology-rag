@@ -10,7 +10,7 @@ class BioBERTEmbedder:
     
     def get_embedding(self, text):
         """Generate BioBERT embeddings for a given medical text."""
-        tokens = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+        tokens = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512)
         tokens = {key: val.to(self.device) for key, val in tokens.items()}
         
         with torch.no_grad():
