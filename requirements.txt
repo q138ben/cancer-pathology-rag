@@ -1,0 +1,8 @@
+tensorflow
+tensorboard
+numpy
+wheel
+neo4j
+Flask
+pillow
+setuptools
