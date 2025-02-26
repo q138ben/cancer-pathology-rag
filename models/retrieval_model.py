@@ -32,11 +32,25 @@ class FaissRetrieval:
 
     def retrieve_similar_texts(self, query, embedder, top_k=5):
         """Retrieve top-k most relevant texts based on BioBERT embeddings."""
-        query_embedding = embedder.get_embedding(query).reshape(1, -1)
-        distances, indices = self.index.search(query_embedding, top_k)
+        if self.index.ntotal == 0:  # Check if FAISS index is empty
+            print("⚠️ Error: FAISS index is empty. Add embeddings before querying.")
+            return []
 
-        results = [(self.text_data[idx], distances[0][i]) for i, idx in enumerate(indices[0])]
+        query_embedding = embedder.get_embedding(query).reshape(1, -1)
+        
+        if query_embedding.shape[1] != self.index.d:  # Ensure dimensions match
+            print(f"⚠️ Error: Query embedding size {query_embedding.shape[1]} does not match FAISS index size {self.index.d}")
+            return []
+
+        distances, indices = self.index.search(query_embedding, top_k)
+        
+        results = []
+        for i, idx in enumerate(indices[0]):
+            if idx < len(self.text_data):  # Prevent out-of-range indexing
+                results.append((self.text_data[idx], distances[0][i]))
+        
         return results
+
 
 # Example Usage
 if __name__ == "__main__":
