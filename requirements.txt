@@ -1,5 +1,7 @@
 tensorflow
 tensorboard
+torch
+transformers
 numpy
 wheel
 neo4j
